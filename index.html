@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comms: the live line for your event team</title>
+<meta name="description" content="A native iPhone app for teams that run events and need everyone on the same page, in real time.">
+<style>
+  :root {
+    --bg: #0d0f14; --panel: #161a22; --line: #262c38;
+    --text: #eef1f6; --muted: #98a2b3; --accent: #ff4d4d; --accent-2: #ffb020;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f7f8fa; --panel: #ffffff; --line: #e3e6ec; --text: #12151c; --muted: #5b6577; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  nav .brand { font-weight: 800; font-size: 20px; text-decoration: none; }
+  nav a.link { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 15px; }
+  .hero { text-align: center; padding: 56px 0 24px; }
+  .hero h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.05; margin: 0 0 16px; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.sub { font-size: clamp(18px, 2.4vw, 22px); color: var(--muted); max-width: 640px; margin: 0 auto 28px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--text); color: var(--bg);
+    padding: 14px 24px; border-radius: 14px; font-weight: 700; text-decoration: none; }
+  .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .shots { display: flex; gap: 20px; justify-content: center; margin: 48px 0 8px; flex-wrap: wrap; }
+  .shots img { width: min(250px, 30%); min-width: 180px; border-radius: 28px; border: 1px solid var(--line);
+    box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+  .note { text-align: center; color: var(--muted); font-size: 13px; }
+  section { padding: 56px 0 8px; }
+  h2 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 12px; letter-spacing: -0.01em; }
+  .lead { color: var(--muted); max-width: 680px; margin: 0 0 28px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .card h3 { margin: 0 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .step { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; padding: 28px 0; }
+  .step:nth-child(even) .copy { order: 2; }
+  .step img { width: 240px; justify-self: center; border-radius: 26px; border: 1px solid var(--line); }
+  .step .num { color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+  .step h3 { font-size: 26px; margin: 4px 0 10px; }
+  .step ul { padding-left: 20px; color: var(--muted); margin: 0; }
+  .step li { margin: 6px 0; }
+  @media (max-width: 720px) {
+    .step { grid-template-columns: 1fr; text-align: left; }
+    .step:nth-child(even) .copy { order: 0; }
+  }
+  .download { margin-top: 56px; background: var(--panel); border: 1px solid var(--line); border-radius: 24px;
+    padding: 36px 24px; text-align: center; }
+  .download .pill { display: inline-block; background: rgba(255,176,32,.14); color: var(--accent-2);
+    padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+  .download .meta { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 22px 0 0;
+    color: var(--muted); font-size: 14px; }
+  .download .meta b { display: block; color: var(--text); font-size: 16px; }
+  .qr { width: 120px; height: 120px; margin: 22px auto 0; border: 2px dashed var(--line); border-radius: 12px;
+    display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+  .btn[aria-disabled="true"] { opacity: .85; cursor: default; }
+  footer { padding: 48px 0 40px; color: var(--muted); font-size: 14px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#">📡 Comms</a>
+    <div>
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#download">Download</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>The live line for the people <em>running your event.</em></h1>
+    <p class="sub">Tap in. See who's on. Press a button. Every phone buzzes. A native iPhone app for clubs, crews and any team that runs events.</p>
+    <div class="cta-row">
+      <a class="btn" href="#download">Download for iPhone</a>
+    </div>
+    <div class="shots">
+      <img src="screenshots/lobby.png" alt="The lobby: who is on the line, and a Tap In button">
+      <img src="screenshots/live.png" alt="The live line: alert keys, feed and pinned note">
+      <img src="screenshots/urgent.png" alt="An urgent alert taking over the screen">
+    </div>
+    <p class="note">Renders of the current app design with sample names and data.</p>
+  </header>
+
+  <section>
+    <h2>The problem</h2>
+    <p class="lead">When an event is under way, your team is scattered across a venue. Group chats bury the one message that matters, and nobody knows who is on duty, who is late, or whether the person at the entrance got the message. Comms replaces the group chat with one purpose-built line.</p>
+  </section>
+
+  <section id="features">
+    <h2>At a glance</h2>
+    <div class="grid">
+      <div class="card"><h3>📡 Live line</h3><p>Tap in, see everyone on duty, and get alerts only while you're on.</p></div>
+      <div class="card"><h3>🎛️ Soundboard</h3><p>One-press alerts for the things that come up every event.</p></div>
+      <div class="card"><h3>🚨 Urgent takeover</h3><p>Full-screen alert with siren and haptics until someone responds.</p></div>
+      <div class="card"><h3>🗓️ Shifts</h3><p>Rota, clock in and out, handoffs, swaps and open shifts.</p></div>
+      <div class="card"><h3>🚪 Entry check-in</h3><p>Entry list, one-tap check-in, walk-ups and a live headcount.</p></div>
+      <div class="card"><h3>📍 Location aware</h3><p>Optional venue geofence tells you who has stepped away.</p></div>
+      <div class="card"><h3>🛑 Shut down</h3><p>A deliberate, can't-misfire way to stop an event on every phone.</p></div>
+      <div class="card"><h3>📊 Recap</h3><p>A shareable summary of the event, with light-hearted awards.</p></div>
+      <div class="card"><h3>🔒 Private by design</h3><p>Only your group sees your people, lists and activity.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 1</div>
+        <h3>Sign in and join your group</h3>
+        <ul>
+          <li>Sign in with an email link, no password</li>
+          <li>Add your name and a profile photo</li>
+          <li>Join with an invite code or create your own group</li>
+          <li>Belong to several groups and switch in one tap</li>
+        </ul>
+      </div>
+      <img src="screenshots/groups.png" alt="Your groups, with a live count on each">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 2</div>
+        <h3>Tap in</h3>
+        <ul>
+          <li>Live headcount with avatars of everyone on the line</li>
+          <li>Your next shift shown right in the lobby</li>
+          <li>Stay tapped in with the app closed until you tap out</li>
+          <li>You only get alerts while tapped in</li>
+        </ul>
+      </div>
+      <img src="screenshots/lobby.png" alt="Lobby">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 3</div>
+        <h3>The soundboard</h3>
+        <ul>
+          <li>Send to everyone, to a title, or to whoever is on a post</li>
+          <li>Urgent keys are hold-to-send, so a stray tap can't fire one</li>
+          <li>Quick "On it" and "Seen" replies instead of a thread</li>
+          <li>Your team edits the board: add, rename, recolour, reorder</li>
+        </ul>
+      </div>
+      <img src="screenshots/live.png" alt="Live line with soundboard">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 4</div>
+        <h3>Urgent takeover</h3>
+        <ul>
+          <li>The whole screen is taken over until someone taps ON IT</li>
+          <li>The sender sees a live count of who is responding</li>
+          <li>Arrives as a Time Sensitive notification when the phone is locked</li>
+        </ul>
+      </div>
+      <img src="screenshots/urgent.png" alt="Urgent alert takeover">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 5</div>
+        <h3>Shifts and accountability</h3>
+        <ul>
+          <li>Schedule grid of posts against time slots</li>
+          <li>Automatic reminders, clock in and out, one-tap nudges</li>
+          <li>Handoffs, swaps, drops and open shifts</li>
+          <li>Lock screen Live Activity for your next shift</li>
+        </ul>
+      </div>
+      <img src="screenshots/shifts.png" alt="Shifts">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 6</div>
+        <h3>Entry check-in</h3>
+        <ul>
+          <li>Import an entry list from a CSV or paste in names</li>
+          <li>Loose name matching, so a typo still finds the right person</li>
+          <li>Walk-ups added on the spot, with a running headcount</li>
+          <li>Cap the entrance at capacity, with every change logged</li>
+        </ul>
+      </div>
+      <img src="screenshots/door.png" alt="Entry check-in">
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">Step 7</div>
+        <h3>Recap</h3>
+        <ul>
+          <li>Totals: people in, team size, alerts sent, average first reply</li>
+          <li>How each shift went and who left the venue</li>
+          <li>Light-hearted awards, shareable as text</li>
+        </ul>
+      </div>
+      <img src="screenshots/recap.png" alt="Event recap">
+    </div>
+  </section>
+
+  <section>
+    <h2>Built for trust and reliability</h2>
+    <div class="grid">
+      <div class="card"><h3>✅ Consent first</h3><p>Alerts only reach people who are tapped in, and respect each person's own Focus settings.</p></div>
+      <div class="card"><h3>🔒 Private by design</h3><p>Email addresses are never visible to other members. Group data is readable only by that group.</p></div>
+      <div class="card"><h3>🧱 Enforced on the server</h3><p>Sensitive actions run server-side so a modified app can't fake them.</p></div>
+      <div class="card"><h3>🩺 Built to be diagnosed</h3><p>Push delivery is logged, and the app warns you if a phone isn't set up for alerts.</p></div>
+    </div>
+  </section>
+
+  <!-- PLACEHOLDER: replace the download details below once there is a real TestFlight or App Store link. -->
+  <section id="download">
+    <div class="download">
+      <span class="pill">Coming soon</span>
+      <h2>Get Comms on iPhone</h2>
+      <p class="lead" style="margin:0 auto;">Comms is in active development and is being tested with real groups through Apple TestFlight. It is not on the App Store yet.</p>
+      <p style="margin:24px 0 0;">
+        <!-- TODO: set href to the TestFlight public link or App Store URL -->
+        <a class="btn" href="#download" aria-disabled="true"> Download on the App Store</a>
+      </p>
+      <div class="qr" aria-hidden="true">QR code</div>
+      <div class="meta">
+        <div><b>Version</b>0.0.0 (placeholder)</div>
+        <div><b>Requires</b>iOS 17.0 or later (placeholder)</div>
+        <div><b>Price</b>Free (placeholder)</div>
+        <div><b>Size</b>00 MB (placeholder)</div>
+      </div>
+      <p class="note" style="margin-top:22px;">Want to try it with your organization? Reach out to <a href="https://github.com/mahir-rana">Mahir Rana</a> to join the TestFlight.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>SwiftUI · Firebase · Apple Push</p>
+    <p>© 2026 Mahir Rana</p>
+  </footer>
+</div>
+</body>
+</html>
